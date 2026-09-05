@@ -1,0 +1,52 @@
+# ─────────────────────────────────────────────────────────────────────────────
+#  Generates the contribution-snake animation used in README.md
+#
+#  SETUP (one time, in the amansinghyadav4/amansinghyadav4 repo):
+#    1. copy this file to  .github/workflows/snake.yml
+#    2. commit + push to main
+#    3. Actions tab -> "Generate contribution snake" -> Run workflow
+#
+#  It writes two SVGs to a branch called `output`, which is exactly where the
+#  <picture> block in README.md points. After the first run the snake appears;
+#  after that it refreshes itself every day at 03:17 UTC.
+#
+#  Colours match the README palette: snake #22C55E on the #0F172A -> #22C55E ramp.
+# ─────────────────────────────────────────────────────────────────────────────
+name: Generate contribution snake
+
+on:
+  schedule:
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+# least privilege: the job only needs to write the `output` branch
+permissions:
+  contents: write
+
+concurrency:
+  group: snake
+  cancel-in-progress: true
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Render snake SVGs
+        uses: Platane/snk@v3
+        id: snake
+        with:
+          github_user_name: ${{ github.repository_owner }}
+          outputs: |
+            dist/github-contribution-grid-snake.svg?color_snake=#22C55E&color_dots=#EBEDF0,#9BE9A8,#40C463,#22C55E,#116329
+            dist/github-contribution-grid-snake-dark.svg?color_snake=#22C55E&color_dots=#1B2336,#1E293B,#166534,#22C55E,#4ADE80
+
+      - name: Publish to `output` branch
+        uses: crazy-max/ghaction-github-pages@v5
+        with:
+          target_branch: output
+          build_dir: dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
