@@ -342,7 +342,11 @@ flowchart LR
 
 <br /><br />
 
-<img width="90%" alt="Contribution grid" src="https://ghchart.rshah.org/58A6FF/amansinghyadav4" />
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/amansinghyadav4/amansinghyadav4/output/github-contribution-grid-snake-dark.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/amansinghyadav4/amansinghyadav4/output/github-contribution-grid-snake.svg" />
+  <img width="98%" alt="A snake eating my contribution grid" src="https://raw.githubusercontent.com/amansinghyadav4/amansinghyadav4/output/github-contribution-grid-snake-dark.svg" />
+</picture>
 
 </div>
 
